@@ -2,10 +2,12 @@ from datetime import datetime, timezone
 
 import dotenv
 from aiogram import Dispatcher, Bot
-from aiogram.fsm.storage.memory import SimpleEventIsolation, MemoryStorage
+from aiogram.fsm.storage.memory import SimpleEventIsolation
 
 from app.configuration.config_loader import CONFIG
 from app.configuration.log import get_logger, LOG_DATE_FORMAT
+from app.db.database import init_db, ENGINE
+from app.db.fsm.storage import PostgresStorage
 
 LOGGER = get_logger(__name__, 'logs')
 
@@ -20,9 +22,10 @@ async def on_startup(bot: Bot):
 
 
 async def start_app():
+    await init_db()
     dp = Dispatcher(
         events_isolation=SimpleEventIsolation(),
-        storage=MemoryStorage()
+        storage=PostgresStorage(engine=ENGINE)
     )
     bot = Bot(token=dotenv.dotenv_values()['BOT_TOKEN'], parse_mode='markdown')
     dp.startup.register(on_startup)

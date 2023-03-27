@@ -40,8 +40,18 @@ def get_runtime_handler(path: str):
     return runtime_handler
 
 
+def get_sqlalchemy_handler(path: str):
+    sqlalchemy_handler = logging.FileHandler(filename=f'{path}/{date_now.year}-{date_now.month}-sql.log',
+                                             encoding='utf-8')
+    sqlalchemy_handler.setFormatter(logFileFormatter)
+    sqlalchemy_handler.setLevel(level=logging.DEBUG)
+    return sqlalchemy_handler
+
+
 logging.getLogger('urllib3').setLevel(logging.WARNING)
 logging.getLogger('asyncio').setLevel(logging.WARNING)
+logging.getLogger('sqlalchemy.engine.Engine').propagate = False
+logging.getLogger('sqlalchemy.engine.Engine').addHandler(get_sqlalchemy_handler('logs'))
 
 
 def get_logger(name: str, path: str) -> logging.Logger:
