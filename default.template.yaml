@@ -1,0 +1,9 @@
+app:
+  debug: false
+bot:
+  owner: ??? # superuser role (telegram user.id)
+database:
+  host: 127.0.0.1
+  port: 5432
+  username: ??? # PostgreSQL username
+  db_name: ??? # PostgreSQL database name
