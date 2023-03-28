@@ -25,7 +25,6 @@ Dialogs:
           url: 'https://random.imagecdn.app/1000/994'
           type: 'photo'
         text: 'ℹ️ *About*'
-        getter: user_name
       buttons:
         - - text: '👈 Back'
             callback: MenuSG.start
