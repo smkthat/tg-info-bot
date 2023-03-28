@@ -130,5 +130,6 @@ dmypy.json
 
 
 # # # Custom # # #
-/default.yaml
+/config.yaml
+/data.yaml
 /.env

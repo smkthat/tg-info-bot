@@ -1,0 +1,44 @@
+Dialogs:
+
+  MenuSG:
+
+    start:
+      content:
+        media:
+          path: 'app/resources/yaml.jpeg'
+          type: 'photo'
+        text: |
+          Hello, {user_name} 👋
+        getter: user_name
+      buttons:
+        - - text: 'ℹ️ About'
+            callback: MenuSG.about
+          - text: '📚 How to use'
+            url: 'https://github.com/smkthat/tg-info-bot/blob/main/README.md'
+        - - text: '⚙️ Settings'
+            callback: OwnerSG.settings
+            when: is_owner
+
+    about:
+      content:
+        media:
+          url: 'https://random.imagecdn.app/1000/994'
+          type: 'photo'
+        text: 'ℹ️ *About*'
+        getter: user_name
+      buttons:
+        - - text: '👈 Back'
+            callback: MenuSG.start
+
+
+  OwnerSG:
+
+    settings:
+      content:
+        media:
+          url: 'https://random.imagecdn.app/1000/993'
+          type: 'photo'
+        text: '⚙️ *Settings*'
+      buttons:
+        - - text: '👈 Back'
+            callback: MenuSG.start

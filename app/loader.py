@@ -2,12 +2,15 @@ from datetime import datetime, timezone
 
 import dotenv
 from aiogram import Dispatcher, Bot
-from aiogram.fsm.storage.memory import SimpleEventIsolation
+from aiogram.enums import ParseMode
+from aiogram.fsm.storage.memory import SimpleEventIsolation, MemoryStorage
+from omegaconf import OmegaConf
 
 from app.configuration.config_loader import CONFIG
 from app.configuration.log import get_logger, LOG_DATE_FORMAT
 from app.db.database import init_db, ENGINE
 from app.db.fsm.storage import PostgresStorage
+from app.handlers.main_handler import gen_and_reg_dialogs
 
 LOGGER = get_logger(__name__, 'logs')
 
@@ -26,8 +29,10 @@ async def start_app():
     dp = Dispatcher(
         events_isolation=SimpleEventIsolation(),
         storage=PostgresStorage(engine=ENGINE)
+        # storage=MemoryStorage()
     )
-    bot = Bot(token=dotenv.dotenv_values()['BOT_TOKEN'], parse_mode='markdown')
+    gen_and_reg_dialogs(dp, data=OmegaConf.load(file_='data.template.yaml'))
+    bot = Bot(token=dotenv.dotenv_values()['BOT_TOKEN'], parse_mode=ParseMode.MARKDOWN)
     dp.startup.register(on_startup)
     await bot.get_updates(offset=-1)
     await dp.start_polling(bot)

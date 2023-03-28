@@ -1,7 +1,8 @@
 import json
-from functools import partial
-
 import dotenv
+
+from functools import partial
+from typing import Awaitable
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 
@@ -9,7 +10,6 @@ from app.configuration.config_loader import CONFIG
 from app.configuration.log import get_logger
 from app.db.models import Base
 
-dd = f':{dotenv.dotenv_values()["DB_USER_PASSWORD"]}' if dotenv.dotenv_values()["DB_USER_PASSWORD"] else ''
 LOGGER = get_logger(__name__, 'logs/sql')
 ENGINE = create_async_engine(
     "postgresql+asyncpg://{username}{password}@{host}:{port}/{db_name}".format(
@@ -36,5 +36,5 @@ async def init_db():
         await conn.run_sync(Base.metadata.create_all)
 
 
-async def get_session():
+async def get_session() -> Awaitable:
     return sessionmaker(ENGINE, class_=AsyncSession, expire_on_commit=False)

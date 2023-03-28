@@ -11,9 +11,9 @@ class StateData(Base):
 
     chat_id = Column(BigInteger, primary_key=True)
     user_id = Column(BigInteger, primary_key=True)
-    bot_id = Column(BigInteger, nullable=False)
+    bot_id = Column(BigInteger, primary_key=True)
     state = Column(String(255))
-    data = Column(JSON(none_as_null=True), nullable=False, default={})
+    data = Column(JSON(none_as_null=True))
 
 
 class User(Base):

@@ -6,7 +6,7 @@ from omegaconf import OmegaConf
 from app.configuration.log import get_logger
 
 LOGGER = get_logger(__name__, 'logs')
-CONFIG_PATH = os.path.relpath('default.yaml')
+CONFIG_PATH = os.path.relpath('config.yaml')
 
 
 def check_env_vars():
@@ -15,7 +15,7 @@ def check_env_vars():
     It loads the environment variables from the .env file into the dotenv module
     and checks if all the required variables are present:
      - BOT_TOKEN (str): Telegram bot token
-     - DB_USER_PASSWORD (str): PostgreSQL user password
+     - DB_USER_PASSWORD (str): (Optional) PostgreSQL user password
 
     If they are missing, it will print out a message indicating that the required
     variables need to be provided and exit the program.
